@@ -20,6 +20,7 @@ qt_add_executable(
         highlighter.cpp
         find_replace_dialog.ui
         word_frequency_dialog.ui
+        notepad_exception.h
 )
 target_link_libraries(notepad PRIVATE Qt6::Widgets)
 
