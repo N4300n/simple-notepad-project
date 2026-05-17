@@ -14,7 +14,7 @@ void highlighter::highlightBlock(const QString& text) {
     QRegularExpressionMatchIterator i = word_regex.globalMatch(text);
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
-        std::string word = match.captured(0).toStdString();
+        std::string word = match.captured(0).toLower().toStdString();
         
         if (!checker.is_correct(word)) {
             setFormat(match.capturedStart(), match.capturedLength(), error_format);
