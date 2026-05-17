@@ -15,30 +15,8 @@ It extends a basic text editor into a more advanced WordPad-style application wi
 
 ---
 
-## 📁 Repository Structure
-├── main.cpp
-├── main_window.h
-├── main_window.cpp
-├── text_transform.h
-├── spell_checker.h
-├── spell_checker.cpp
-├── highlighter.h
-├── highlighter.cpp
-├── notepad_exception.h
-├── test_exceptions.cpp
-│
-├── find_replace_dialog.ui
-├── word_frequency_dialog.ui
-│
-├── CMakeLists.txt
-├── .gitignore
-├── Readme.md
-│
-├── data/
-│ └── images/
-│ ├── bold.svg
-│ ├── italic.svg
-│ └── underline.svg
+<img width="435" height="554" alt="image" src="https://github.com/user-attachments/assets/9d1b2856-bfda-4660-8780-cacd4f40b3a6" />
+
 
 ---
 
@@ -197,9 +175,3 @@ Analyzes text and shows frequency table.
 Real-time underline + suggestions.
 
 ---
-
-## 🚀 Build Instructions
-
-```bash
-cmake -S . -B build
-cmake --build build
