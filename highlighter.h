@@ -8,12 +8,11 @@
 class highlighter : public QSyntaxHighlighter {
     Q_OBJECT
 
-public:5ttbyb
+public :
     highlighter(QTextDocument* parent, const spell_checker& checker);
 
 protected:
     void highlightBlock(const QString& text) override;
-
 private:
     const spell_checker& checker;
     QRegularExpression word_regex;
