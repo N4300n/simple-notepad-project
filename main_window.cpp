@@ -37,7 +37,7 @@
 namespace {
 
 QTextDocument::FindFlags make_find_flags(const Ui::find_replace_dialog& ui) {
-    QTextDocument::FindFlags flags;
+    QTextDocument::FindFlags flags = QTextDocument::FindFlags();
     if (ui.case_sensitive_check->isChecked()) {
         flags |= QTextDocument::FindCaseSensitively;
     }
@@ -70,6 +70,8 @@ void write_text_file(const QString& path, const QString& contents) {
 main_window::main_window() {
     setWindowTitle("Notepad");
     resize(800, 600);
+
+    find_replace_dlg = nullptr;
 
     editor = new QTextEdit(this);
     setCentralWidget(editor);
@@ -333,7 +335,7 @@ void main_window::show_find_replace_dialog() {
         connect(find_replace_ui->replace_all_button, &QPushButton::clicked,
             this, [this] { replace_all(find_replace_ui->find_input->text(), find_replace_ui->replace_input->text(), make_find_flags(*find_replace_ui)); });
         connect(find_replace_ui->close_button, &QPushButton::clicked,
-            find_replace_dlg, [this] { find_replace_dlg->hide(); });
+            find_replace_dlg, &QDialog::hide);
     }
     find_replace_dlg->show();
     find_replace_dlg->raise();
@@ -407,9 +409,9 @@ void main_window::show_word_frequency() {
 
 void main_window::show_context_menu(const QPoint& pos) {
     auto menu = editor->createStandardContextMenu();
-    QTextCursor cursor = editor->cursorForPosition(pos);
-    cursor.select(QTextCursor::WordUnderCursor);
-    QString word = cursor.selectedText();
+    QTextCursor word_cursor = editor->cursorForPosition(pos);
+    word_cursor.select(QTextCursor::WordUnderCursor);
+    QString word = word_cursor.selectedText();
 
     if (checker && !word.isEmpty() && !checker->is_correct(word.toStdString())) {
         menu->addSeparator();
@@ -419,14 +421,16 @@ void main_window::show_context_menu(const QPoint& pos) {
         } else {
             for (const auto& s : suggestions) {
                 auto* action = menu->addAction(QString::fromStdString(s));
-                connect(action, &QAction::triggered, this, [this, cursor, s]() mutable {
-                    cursor.insertText(QString::fromStdString(s));
+                connect(action, &QAction::triggered, this, [this, pos, s]() {
+                    QTextCursor current_word_cursor = editor->cursorForPosition(pos);
+                    current_word_cursor.select(QTextCursor::WordUnderCursor);
+                    current_word_cursor.insertText(QString::fromStdString(s));
                 });
             }
         }
     }
     menu->exec(editor->mapToGlobal(pos));
-    delete menu;
+    menu->deleteLater();
 }
 
 void main_window::recheck_spelling() {
