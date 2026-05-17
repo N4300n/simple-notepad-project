@@ -1,3 +1,4 @@
+[cite: 1]
 cmake_minimum_required(VERSION 3.22)
 project(practice_8 LANGUAGES CXX)
 
@@ -8,20 +9,23 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_standard_project_setup()
 
 qt_add_executable(
-        notepad
-        main.cpp
-        main_window.h
-        main_window.cpp
-        text_transform.h
-        notepad_exception.h
-        find_replace_dialog.ui
-        word_frequency_dialog.ui
-        main.cpp
+notepad
+main.cpp
+main_window.h
+main_window.cpp
+text_transform.h
+notepad_exception.h
+spell_checker.h
+spell_checker.cpp
+highlighter.h
+highlighter.cpp
+find_replace_dialog.ui
+word_frequency_dialog.ui
 )
 target_link_libraries(notepad PRIVATE Qt6::Widgets)
 
 add_executable(
-        test_exceptions
-        test_exceptions.cpp
-        notepad_exception.h
+test_exceptions
+test_exceptions.cpp
+notepad_exception.h
 )
